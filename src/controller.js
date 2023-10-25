@@ -28,19 +28,6 @@ async update(req, res){
 
 } 
 
-/* async getOne(req, res) {
-    const id= req.body.id;
-    const [result] = await pool.query('SELECT * FROM libros WHERE id = ?', [id]);
-    if(result.lengh > 0) {
-        //devolver el libro encontrado
-        res.json(result[0]);
-    }else {
-        //devolver un mensaje de error
-        res.status(404).json({"Error": `No se encontró el libro con el id ${id}`}); 
-    }
-   
- } */
-
  async getOne(req, res) {
         try {
                 const libro = req.body
@@ -58,6 +45,12 @@ async update(req, res){
     }
   
    } 
+   async deleteISBN(req, res){
+    const libro = req.body; 
+    const [result] = await pool.query(`DELETE FROM libros WHERE ISBN=(?)`, [libro.ISBN]); 
+    res.json({"Registros eliminados": result.affectedRows});
+}
+
 
 }
 

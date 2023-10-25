@@ -16,3 +16,6 @@ router.put('/libro', libro.update);
 
 //Solicitud para mostrar un libro según su id
 router.get('/libro', libro.getOne);
+
+//Solicitud para eliminar según ISBN
+router.delete('/libroISBN', libro.deleteISBN);
