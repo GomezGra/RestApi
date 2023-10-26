@@ -6,7 +6,7 @@ export const router = Router()
 router.get('/libros', libro.getAll);
 
 //Tipo de solicitud para insertar usamos post
-router.post('/libro',libro.add);
+router.post('/libro', libro.add);
 
 //Solicitud para eliminar
 router.delete('/libro', libro.delete);

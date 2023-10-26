@@ -32,7 +32,7 @@ async add(req, res) {
       console.log('Error al añadir el libro:', error);
     }
   }
-  
+
 
 async delete(req, res){
     const libro = req.body; 
@@ -50,7 +50,7 @@ async update(req, res){
  async getOne(req, res) {
         try {
                 const libro = req.body
-                const id=parseInt(libro.id);
+                const id = parseInt(libro.id);
 
             const [result] = await pool.query('SELECT * FROM libros WHERE id = ?', [id]);
             if (result [0]!= undefined) {
@@ -62,15 +62,33 @@ async update(req, res){
       console.log(e);
 
     }
-  
    } 
-   async deleteISBN(req, res){
+
+
+   //async deleteISBN(req, res){
+        /* const libro = req.body; 
+        const [result] = await pool.query(`DELETE FROM libros WHERE ISBN=(?)`, [libro.ISBN]); 
+        res.json({"Registros eliminados": result.affectedRows});
+} */
+
+async deleteISBN(req, res){
     const libro = req.body; 
-    const [result] = await pool.query(`DELETE FROM libros WHERE ISBN=(?)`, [libro.ISBN]); 
-    res.json({"Registros eliminados": result.affectedRows});
+    const ISBN = parseInt(libro.ISBN);
+
+    try{ 
+    if ([ISBN] != undefined) {
+        return res.json({ error: `Atributos invalido: No se encontro libro con el ISBN especificado` });
+    }
+    const [result] = await pool.query(`DELETE FROM libros WHERE ISBN=(?)`, [ISBN]);
+        res.json({"Registros eliminados": result.affectedRows});
+
+    } catch (e) {
+        console.log(e);
+               }
+   }
 }
 
 
-}
+
 
 export const libro = new LibroController();
