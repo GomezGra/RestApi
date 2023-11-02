@@ -2,9 +2,20 @@ import {pool} from './database.js';
 
 class LibroController{
 
-    async getAll(req, res) {
+    /* async getAll(req, res) {
         const [result] = await pool.query('SELECT * FROM libros');
         res.json(result);
+    } */
+
+    //funcionalidad para consulta y ver todos los campos de la tabla
+    async getAll(req, res) {
+      try {
+        const [result] = await pool.query('SELECT * FROM libros');
+        res.json(result);
+      } catch (error) {
+        console.log('Error al obtener los libros:', error);
+        res.status(500).json({ error: "Error en el servidor" });
+      }
     }
 
 
@@ -19,7 +30,7 @@ async add(req, res) {
   
       try{ 
         //si tiene más atributos o menos atributos
-      if ((atributosExtra.length > 0) || (atributosExtra.length != atributosRequeridos.length)){
+      if ((atributosExtra.length > 0) || (atributosExtra.length < 6)){
         return res.json({ error: `Atributos invalido: ${atributosExtra.join(' , ')}` });
       }
      
