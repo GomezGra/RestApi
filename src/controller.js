@@ -30,7 +30,7 @@ async add(req, res) {
   
       try{ 
         //si tiene más atributos o menos atributos
-      if ((atributosExtra.length > 0) || (atributosExtra.length < 6)){
+      if ((atributosExtra.length > 0) ){
         return res.json({ error: `Atributos invalido: ${atributosExtra.join(' , ')}` });
       }
      
