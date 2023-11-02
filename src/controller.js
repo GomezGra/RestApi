@@ -51,12 +51,29 @@ async delete(req, res){
     res.json({"Registros eliminados": result.affectedRows});
 }
 
-async update(req, res){
+
+/* async update(req, res){
     const libro = req.body;
     const [result] = await pool.query(`UPDATE libros SET nombre=(?), autor=(?), categoria=(?), añoPublicacion=(?), ISBN=(?) WHERE id=(?)`, [libro.nombre, libro.autor, libro.categoria, libro.añoPublicacion, libro.ISBN, libro.id]);
     res.json({"Registros modificados": result.changedRows});
 
-} 
+}  */
+
+async update(req, res){
+  try {
+      const libro = req.body;
+      const [result] = await pool.query(`UPDATE libros SET nombre=(?), autor=(?), categoria=(?), añoPublicacion=(?), ISBN=(?) WHERE id=(?)`,[libro.nombre, libro.autor, libro.categoria, libro.añoPublicacion, libro.ISBN, libro.id]);
+      if (result.changedRows === 0) {
+          throw new Error('No se encontró un libro con el ID proporcionado o los datos proporcionados ya existen.');
+      }
+      res.json({"Registros Actualizados": result.changedRows});
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Hubo un error al actualizar el libro, compruebe los campos requeridos.' });
+  }
+}
+
+
 
  async getOne(req, res) {
         try {
